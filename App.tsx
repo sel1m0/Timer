@@ -1,16 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Header from "./src/Header";
+import { useState, useEffect } from 'react';
+import { secondsToString } from "./src/convertTime";
 
 export default function App() {
+  const [timer, setTimer] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  let timeout: NodeJS.Timeout;
+  
+  useEffect(() => {
+    if (isRunning) {
+      timeout = setTimeout(() => {
+        setTimer(timer + 1);
+      }, 1000);
+    }
+  }, [timer, isRunning])
+
+  function startTimer() {
+    setIsRunning(true);
+  }
+
+  function resetTimer() {
+    setIsRunning(false);
+    clearTimeout(timeout);
+    setTimer(0);
+  }
+
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.clock}>
-        <Text style={styles.time}>00:00</Text>
+        <Text style={styles.time}>{secondsToString(timer)}</Text>
         <View style={styles.buttons}>
-          <View style={styles.stopButton}></View>  
-          <View style={styles.startButton}></View>
+          <TouchableOpacity style={styles.stopButton} onPress={resetTimer}></TouchableOpacity>  
+          <TouchableOpacity style={styles.startButton} onPress={startTimer}></TouchableOpacity>
         </View>  
       </View>
       <StatusBar style="auto" />
