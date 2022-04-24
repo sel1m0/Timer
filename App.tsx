@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Header from "./src/Header";
 import { secondsToString } from "./src/convertTime";
 import useTimer from './src/useTimer';
+import Alarm from './src/components/Alarm';
+import RoundButton from "./src/components/RoundButton";
 
 
 export default function App() {
@@ -18,6 +20,15 @@ export default function App() {
         <Buttons resetTimer={reset} startTimer={start} />
       </View>
       <StatusBar style="auto" />
+
+      <View style={styles.listContainer}>
+        <View style={styles.plusButton}>
+          <RoundButton type='green' text='+' onPress={() => null} />
+        </View>
+        <Alarm />
+        <Alarm />
+        <Alarm />
+      </View>
     </View>
   );
 }
@@ -40,6 +51,16 @@ const styles = StyleSheet.create({
     marginTop: "30%",
     fontSize: 50,
     fontFamily: "monospace"
+  },
+  listContainer: {
+    borderColor: "red",
+    borderWidth: 1,
+    marginTop: "5%",
+    flex: 1,
+    width: "80%"
+  },
+  plusButton: {
+    alignSelf: "flex-end"
   }
 });
 
